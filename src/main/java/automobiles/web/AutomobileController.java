@@ -1,6 +1,7 @@
 package automobiles.web;
 
 import automobiles.model.binding.AutomobileAddBindingModel;
+import automobiles.model.entities.AutomobileEntity;
 import automobiles.model.service.AutomobileServiceModel;
 import automobiles.model.view.AutomobileViewModel;
 import automobiles.service.AutomobileService;
@@ -34,17 +35,25 @@ public class AutomobileController {
         return new ResponseEntity<>(automobiles, HttpStatus.OK);
     }
 
-    @GetMapping("/add")
-    public ResponseEntity<AutomobileAddBindingModel> addAutomobile() {
-        return new ResponseEntity<>(new AutomobileAddBindingModel(), HttpStatus.OK);
-    }
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Void>
-    createAutomobile(@Valid @RequestBody AutomobileAddBindingModel automobileAddBindingModel, BindingResult bindingResult) {
+    public void createAutomobile(@Valid @RequestBody AutomobileAddBindingModel automobileAddBindingModel, BindingResult bindingResult) {
         automobileService
                 .addAutomobile(modelMapper.map(automobileAddBindingModel, AutomobileServiceModel.class));
-        return null;
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AutomobileAddBindingModel> getAutomobile(@PathVariable Long id) {
+        AutomobileEntity entity = automobileService.findById(id);
+        AutomobileAddBindingModel automobileAddBindingModel = modelMapper.map(entity, AutomobileAddBindingModel.class);
+        automobileAddBindingModel.setOwnerEmail(entity.getOwner().getEmail());
+
+        return new ResponseEntity<>(automobileAddBindingModel, HttpStatus.FOUND);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteAutomobile(@PathVariable Long id) {
+        automobileService.deleteById(id);
     }
 }

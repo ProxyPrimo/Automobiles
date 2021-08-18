@@ -10,6 +10,8 @@ import automobiles.service.AutomobileService;
 import automobiles.service.MakerService;
 import automobiles.service.ModelService;
 import automobiles.service.UserService;
+import javassist.NotFoundException;
+import org.hibernate.annotations.NotFound;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -61,5 +63,15 @@ public class AutomobileServiceImpl implements AutomobileService {
 
 
         automobileRepository.saveAndFlush(automobileEntity);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        automobileRepository.deleteById(id);
+    }
+
+    @Override
+    public AutomobileEntity findById(Long id) {
+        return automobileRepository.findById(id).orElse(null);
     }
 }

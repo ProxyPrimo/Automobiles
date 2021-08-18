@@ -1,6 +1,7 @@
 package automobiles.model.view;
 
 public class AutomobileViewModel {
+    private Long id;
     private String ownerFullName;
     private String makerName;
     private String modelName;
@@ -10,6 +11,14 @@ public class AutomobileViewModel {
     private Integer horsePower;
 
     public AutomobileViewModel() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getOwnerFullName() {
