@@ -37,7 +37,17 @@ public class AutomobileServiceImpl implements AutomobileService {
         return automobileRepository
                 .findAll()
                 .stream()
-                .map(a -> modelMapper.map(a, AutomobileViewModel.class))
+                .map(a -> {
+                    AutomobileViewModel viewModel = modelMapper.map(a, AutomobileViewModel.class);
+
+                    viewModel.setOwnerFullName(
+                            a.getOwner().getFirstName()
+                                    + " "
+                                    + a.getOwner().getMiddleName()
+                                    + " "
+                                    + a.getOwner().getLastName());
+                    return viewModel;
+                })
                 .collect(Collectors.toList());
     }
 
