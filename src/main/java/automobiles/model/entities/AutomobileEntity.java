@@ -12,13 +12,13 @@ import javax.validation.constraints.Positive;
 @Entity
 @Table(name = "automobiles")
 public class AutomobileEntity extends BaseEntity {
-    private UserEntity owner;
-    private MakerEntity maker;
-    private ModelEntity model;
     private Integer engineCapacity;
     private String registrationNumber;
     private String colour;
     private Integer horsePower;
+    private UserEntity owner;
+    private MakerEntity maker;
+    private ModelEntity model;
 
 
     public AutomobileEntity() {

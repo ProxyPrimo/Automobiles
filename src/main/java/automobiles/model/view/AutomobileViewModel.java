@@ -1,9 +1,5 @@
 package automobiles.model.view;
 
-import automobiles.model.entities.MakerEntity;
-import automobiles.model.entities.ModelEntity;
-import automobiles.model.entities.UserEntity;
-
 public class AutomobileViewModel {
     private String ownerFullName;
     private String makerName;
