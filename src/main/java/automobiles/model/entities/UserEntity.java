@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "users")
@@ -17,6 +19,7 @@ public class UserEntity extends BaseEntity {
     public UserEntity() {
     }
 
+    @NotBlank
     @Column(name = "first_name", nullable = false)
     public String getFirstName() {
         return firstName;
@@ -26,6 +29,7 @@ public class UserEntity extends BaseEntity {
         this.firstName = firstName;
     }
 
+    @NotBlank
     @Column(name = "middle_name", nullable = false)
     public String getMiddleName() {
         return middleName;
@@ -35,6 +39,7 @@ public class UserEntity extends BaseEntity {
         this.middleName = middleName;
     }
 
+    @NotBlank
     @Column(name = "last_name", nullable = false)
     public String getLastName() {
         return lastName;
@@ -44,6 +49,7 @@ public class UserEntity extends BaseEntity {
         this.lastName = lastName;
     }
 
+    @Min(18)
     @Column(nullable = false)
     public Integer getAge() {
         return age;
@@ -54,7 +60,7 @@ public class UserEntity extends BaseEntity {
     }
 
     @Email
-    @Column
+    @Column(unique = true)
     public String getEmail() {
         return email;
     }

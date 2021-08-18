@@ -4,6 +4,8 @@ import automobiles.model.entities.enumerations.CarType;
 import automobiles.model.entities.enumerations.EngineType;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "models")
@@ -16,6 +18,7 @@ public class ModelEntity extends BaseEntity {
     public ModelEntity() {
     }
 
+    @NotBlank
     @Column(nullable = false, unique = true)
     public String getName() {
         return name;
@@ -25,6 +28,7 @@ public class ModelEntity extends BaseEntity {
         this.name = name;
     }
 
+    @Min(1672)
     @Column(nullable = false)
     public Integer getYear() {
         return year;

@@ -4,6 +4,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
 
 @Entity
 @Table(name = "automobiles")
@@ -47,6 +50,7 @@ public class AutomobileEntity extends BaseEntity {
         this.model = model;
     }
 
+    @Positive
     @Column(name = "engine_capacity", nullable = false)
     public Integer getEngineCapacity() {
         return engineCapacity;
@@ -56,6 +60,7 @@ public class AutomobileEntity extends BaseEntity {
         this.engineCapacity = engineCapacity;
     }
 
+    @Pattern(regexp = "^[A-Z]{1,2}[0-9]{4}[A-Z]{2}$")
     @Column(name = "registration_number", nullable = false, unique = true)
     public String getRegistrationNumber() {
         return registrationNumber;
@@ -65,6 +70,7 @@ public class AutomobileEntity extends BaseEntity {
         this.registrationNumber = registrationNumber;
     }
 
+    @NotBlank
     @Column(nullable = false)
     public String getColour() {
         return colour;
@@ -74,6 +80,7 @@ public class AutomobileEntity extends BaseEntity {
         this.colour = colour;
     }
 
+    @Positive
     @Column(name = "horse_power", nullable = false)
     public Integer getHorsePower() {
         return horsePower;
