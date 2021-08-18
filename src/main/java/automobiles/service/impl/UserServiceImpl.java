@@ -29,4 +29,11 @@ public class UserServiceImpl implements UserService {
             ));
         }
     }
+
+    @Override
+    public UserEntity findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+
 }

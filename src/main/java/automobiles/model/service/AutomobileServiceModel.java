@@ -1,21 +1,17 @@
-package automobiles.model.binding;
+package automobiles.model.service;
 
-import javax.validation.constraints.*;
-
-public class AutomobileAddBindingModel {
+public class AutomobileServiceModel {
     private Integer engineCapacity;
     private String registrationNumber;
     private String colour;
     private Integer horsePower;
-    private String ownerEmail;
-    private String makerName;
-    private String modelName;
+    private UserServiceModel owner;
+    private MakerServiceModel maker;
+    private ModelServiceModel model;
 
-    public AutomobileAddBindingModel() {
+    public AutomobileServiceModel() {
     }
 
-    @Positive
-    @NotNull
     public Integer getEngineCapacity() {
         return engineCapacity;
     }
@@ -24,8 +20,6 @@ public class AutomobileAddBindingModel {
         this.engineCapacity = engineCapacity;
     }
 
-    @Pattern(regexp = "^[A-Z]{1,2}[0-9]{4}[A-Z]{2}$")
-    @NotBlank
     public String getRegistrationNumber() {
         return registrationNumber;
     }
@@ -34,7 +28,6 @@ public class AutomobileAddBindingModel {
         this.registrationNumber = registrationNumber;
     }
 
-    @NotBlank
     public String getColour() {
         return colour;
     }
@@ -43,8 +36,6 @@ public class AutomobileAddBindingModel {
         this.colour = colour;
     }
 
-    @Positive
-    @NotNull
     public Integer getHorsePower() {
         return horsePower;
     }
@@ -53,30 +44,27 @@ public class AutomobileAddBindingModel {
         this.horsePower = horsePower;
     }
 
-    @Email
-    @NotBlank
-    public String getOwnerEmail() {
-        return ownerEmail;
+    public UserServiceModel getOwner() {
+        return owner;
     }
 
-    public void setOwnerEmail(String ownerEmail) {
-        this.ownerEmail = ownerEmail;
+    public void setOwner(UserServiceModel owner) {
+        this.owner = owner;
     }
 
-    @NotBlank
-    public String getMakerName() {
-        return makerName;
+    public MakerServiceModel getMaker() {
+        return maker;
     }
 
-    public void setMakerName(String makerName) {
-        this.makerName = makerName;
-    }
-    @NotBlank
-    public String getModelName() {
-        return modelName;
+    public void setMaker(MakerServiceModel maker) {
+        this.maker = maker;
     }
 
-    public void setModelName(String modelName) {
-        this.modelName = modelName;
+    public ModelServiceModel getModel() {
+        return model;
+    }
+
+    public void setModel(ModelServiceModel model) {
+        this.model = model;
     }
 }

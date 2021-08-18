@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MakerRepository extends JpaRepository<MakerEntity, Long> {
+
+    MakerEntity findByName(String name);
 }

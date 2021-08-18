@@ -27,4 +27,9 @@ public class MakerServiceImpl implements MakerService {
             ));
         }
     }
+
+    @Override
+    public MakerEntity findByMakerName(String name) {
+        return makerRepository.findByName(name);
+    }
 }
