@@ -1,5 +1,42 @@
+nav {
+    left: 0;
+    height: 40px;
+    width: 100%;
+    margin: 0 auto;
+}
+nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: center;
+}
+nav ul li {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+nav ul li button {
+    text-decoration: none;
+    padding: 10px 20px;
+    display: block;
+    color: #000000;
+    text-align: center;
+}
+
+table {
+    border: 1px solid black;
+    margin-top: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+th:not(:last-child), td {
+    border-right: 1px solid black;
+    text-align: center;
+}
+
 label, input {
-    display:block;
+    display: block;
     margin: 0 auto;
 }
 
@@ -7,8 +44,6 @@ form input {
     margin-bottom: 1%;
     width: 25%;
 }
-
-
 form {
     display: block;
     margin: 0 auto;
