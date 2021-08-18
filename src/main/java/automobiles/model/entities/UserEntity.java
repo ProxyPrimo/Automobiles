@@ -60,7 +60,7 @@ public class UserEntity extends BaseEntity {
     }
 
     @Email
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     public String getEmail() {
         return email;
     }

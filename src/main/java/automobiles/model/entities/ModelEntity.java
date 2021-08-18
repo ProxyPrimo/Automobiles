@@ -6,6 +6,7 @@ import automobiles.model.entities.enumerations.EngineType;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "models")
@@ -18,7 +19,7 @@ public class ModelEntity extends BaseEntity {
     public ModelEntity() {
     }
 
-    @NotBlank
+    @NotNull
     @Column(nullable = false, unique = true)
     public String getName() {
         return name;
@@ -38,6 +39,7 @@ public class ModelEntity extends BaseEntity {
         this.year = year;
     }
 
+    @NotNull
     @Enumerated
     public EngineType getEngine() {
         return engine;
@@ -47,6 +49,7 @@ public class ModelEntity extends BaseEntity {
         this.engine = engine;
     }
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     public CarType getCarType() {
         return carType;
