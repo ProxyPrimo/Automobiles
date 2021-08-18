@@ -19,6 +19,14 @@ public class UserEntity extends BaseEntity {
     public UserEntity() {
     }
 
+    public UserEntity(Integer age, String email, String firstName, String middleName, String lastName) {
+        this.age = age;
+        this.email = email;
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
+    }
+
     @NotBlank
     @Column(name = "first_name", nullable = false)
     public String getFirstName() {

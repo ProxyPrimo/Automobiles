@@ -14,6 +14,11 @@ public class MakerEntity extends BaseEntity {
     public MakerEntity() {
     }
 
+    public MakerEntity(String description, String name) {
+        this.description = description;
+        this.name = name;
+    }
+
     @NotBlank
     @Column(nullable = false, unique = true)
     public String getName() {

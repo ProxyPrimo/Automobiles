@@ -24,6 +24,16 @@ public class AutomobileEntity extends BaseEntity {
     public AutomobileEntity() {
     }
 
+    public AutomobileEntity(UserEntity owner, MakerEntity maker, ModelEntity model, Integer engineCapacity, String registrationNumber, String colour, Integer horsePower) {
+        this.owner = owner;
+        this.maker = maker;
+        this.model = model;
+        this.engineCapacity = engineCapacity;
+        this.registrationNumber = registrationNumber;
+        this.colour = colour;
+        this.horsePower = horsePower;
+    }
+
     @NotNull
     @ManyToOne
     public UserEntity getOwner() {

@@ -19,6 +19,13 @@ public class ModelEntity extends BaseEntity {
     public ModelEntity() {
     }
 
+    public ModelEntity(String name, Integer year, EngineType engine, CarType carType) {
+        this.name = name;
+        this.year = year;
+        this.engine = engine;
+        this.carType = carType;
+    }
+
     @NotNull
     @Column(nullable = false, unique = true)
     public String getName() {
