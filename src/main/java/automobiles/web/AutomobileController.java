@@ -1,18 +1,22 @@
 package automobiles.web;
 
+import automobiles.error.ErrorInfo;
 import automobiles.model.binding.AutomobileAddBindingModel;
 import automobiles.model.entities.AutomobileEntity;
 import automobiles.model.service.AutomobileServiceModel;
 import automobiles.model.view.AutomobileViewModel;
 import automobiles.service.AutomobileService;
+import automobiles.service.MakerService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/automobiles")
@@ -37,9 +41,21 @@ public class AutomobileController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createAutomobile(@Valid @RequestBody AutomobileAddBindingModel automobileAddBindingModel, BindingResult bindingResult) {
+    public ResponseEntity<List<ErrorInfo>> createAutomobile(@Valid @RequestBody AutomobileAddBindingModel automobileAddBindingModel, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            List<ErrorInfo> collect = bindingResult
+                    .getAllErrors()
+                    .stream()
+                    .map(err -> new ErrorInfo(err.getDefaultMessage(), ((FieldError) err).getField()))
+                    .collect(Collectors.toList());
+
+            return new ResponseEntity<>(collect, HttpStatus.NOT_ACCEPTABLE);
+        }
+
         automobileService
                 .addAutomobile(modelMapper.map(automobileAddBindingModel, AutomobileServiceModel.class));
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}")
@@ -55,5 +71,24 @@ public class AutomobileController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAutomobile(@PathVariable Long id) {
         automobileService.deleteById(id);
+    }
+
+    @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<ErrorInfo>> updateAutomobile(@PathVariable Long id
+            , @Valid @RequestBody AutomobileAddBindingModel automobileAddBindingModel
+            , BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            List<ErrorInfo> collect = bindingResult.getAllErrors()
+                    .stream()
+                    .map(err -> new ErrorInfo(err.getDefaultMessage(), ((FieldError) err).getField()))
+                    .collect(Collectors.toList());
+
+            return new ResponseEntity<>(collect, HttpStatus.BAD_REQUEST);
+        }
+        automobileService.updateAutomobile(id
+                , modelMapper.map(automobileAddBindingModel, AutomobileServiceModel.class));
+
+        return ResponseEntity.ok().build();
     }
 }

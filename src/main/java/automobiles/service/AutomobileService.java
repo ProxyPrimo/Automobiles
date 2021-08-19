@@ -14,4 +14,6 @@ public interface AutomobileService {
     void deleteById(Long id);
 
     AutomobileEntity findById(Long id);
+
+    void updateAutomobile(Long id, AutomobileServiceModel map);
 }

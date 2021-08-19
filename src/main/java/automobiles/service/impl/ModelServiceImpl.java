@@ -40,4 +40,9 @@ public class ModelServiceImpl implements ModelService {
     public ModelEntity findByModelName(String model) {
         return modelRepository.findByName(model);
     }
+
+    @Override
+    public List<String> findAllModelNames() {
+        return modelRepository.findAllNames();
+    }
 }

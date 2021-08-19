@@ -1,4 +1,7 @@
 const automobileTableBody = document.querySelector('.automobile-table-container');
+const makerSelect = document.querySelector('#maker-names-select');
+const modelSelect = document.querySelector('#model-names-select');
+const errorList = document.querySelector(`#error-msgs`);
 
 document.querySelector('#loadAllAutomobiles').onclick = () => {
     document.querySelector('.automobile-table-container').innerHTML = '';
@@ -42,8 +45,9 @@ document.querySelector('#loadAllAutomobiles').onclick = () => {
                     fetch(`http://localhost:8080/automobiles/${id}`)
                         .then(res => res.json())
                         .then(auto => {
-                            document.querySelector('#maker').value = auto.makerName;
-                            document.querySelector('#model').value = auto.modelName;
+                            document.querySelector('#autoId').value = id;
+                            document.querySelector('#maker-names-select').value = auto.makerName;
+                            document.querySelector('#model-names-select').value = auto.modelName;
                             document.querySelector('#ownerEmail').value = auto.ownerEmail;
                             document.querySelector('#horsePower').value = auto.horsePower;
                             document.querySelector('#colour').value = auto.colour;
@@ -62,8 +66,8 @@ document.querySelector('#create-btn').onclick = e => {
     e.preventDefault();
 
     const automobile = {
-        'makerName': document.querySelector('#maker').value,
-        'modelName': document.querySelector('#model').value,
+        'makerName': document.querySelector('#maker-names-select').value,
+        'modelName': document.querySelector('#model-names-select').value,
         'ownerEmail': document.querySelector('#ownerEmail').value,
         'horsePower': document.querySelector('#horsePower').value,
         'colour': document.querySelector('#colour').value,
@@ -77,40 +81,94 @@ document.querySelector('#create-btn').onclick = e => {
         headers: {
             "Content-Type": "application/json"
         }
-    }).then(() => {
+    }).then(res => {
+            if (res.ok !== true) {
+                throw res.json();
+            }
             document.querySelector("#loadAllAutomobiles").onclick();
-        })
-        .then(() => {
-            document.querySelector('#maker').value = '';
-            document.querySelector('#model').value = '';
+
             document.querySelector('#ownerEmail').value = '';
             document.querySelector('#horsePower').value = '';
             document.querySelector('#colour').value = '';
             document.querySelector('#registrationNumber').value = '';
             document.querySelector('#engineCapacity').value = '';
-        });
+        })
+        .catch(err => {
+            err.then(e => {
+                errorList.innerHTML = '';
+                if (e.length > 0) {
+                    e.forEach(ex => {
+                        const messageNewField = document.createElement('li');
+
+                        messageNewField.innerText = ex.to + " " + ex.ex;
+                        messageNewField.value = ex.to + " " + ex.ex;
+
+                        errorList.appendChild(messageNewField);
+                    });
+                }
+            })
+    });
 }
 
 document.querySelector('#edit-btn').onclick = e => {
     e.preventDefault();
 
     const automobile = {
-        'makerName': document.querySelector('#maker').value,
-        'modelName': document.querySelector('#model').value,
+        'makerName': document.querySelector('#maker-names-select').value,
+        'modelName': document.querySelector('#model-names-select').value,
         'ownerEmail': document.querySelector('#ownerEmail').value,
         'horsePower': document.querySelector('#horsePower').value,
         'colour': document.querySelector('#colour').value,
         'registrationNumber': document.querySelector('#registrationNumber').value,
         'engineCapacity': document.querySelector('#engineCapacity').value
     }
-
-    fetch(`http://localhost:8080/automobiles/${id}`, {
+    fetch(`http://localhost:8080/automobiles/${document.querySelector('#autoId').value}`, {
         body: JSON.stringify(automobile)
         , method: 'PATCH'
         , headers: {
             "Content-type": "application/json"
         }
-    }).then(() => {
+    }).then(res => {
+        if (res.ok !== true) {
+            throw res.json();
+        }
         document.querySelector("#loadAllAutomobiles").onclick();
-    })
+    }).catch(err => {
+        console.log(err);
+        err.then(e => {
+            errorList.innerHTML = '';
+            if (e.length > 0) {
+                e.forEach(ex => {
+                    const messageNewField = document.createElement('li');
+
+                    messageNewField.innerText = ex.to + " " + ex.ex;
+                    messageNewField.value = ex.to + " " + ex.ex;
+
+                    errorList.appendChild(messageNewField);
+                });
+            }
+        })
+    });
 }
+
+fetch('http://localhost:8080/makers/names')
+    .then(res => res.json())
+    .then(json => {
+        json.forEach(maker => {
+            const op = document.createElement("option");
+            op.innerText = maker;
+            op.value = maker;
+            makerSelect.appendChild(op);
+        });
+    });
+
+fetch('http://localhost:8080/models/names')
+    .then(res => res.json())
+    .then(json => {
+        json.forEach(model => {
+            const op = document.createElement("option");
+            op.innerText = model;
+            op.value = model;
+            modelSelect.appendChild(op);
+        });
+    });

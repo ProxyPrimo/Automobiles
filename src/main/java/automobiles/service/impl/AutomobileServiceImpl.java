@@ -74,4 +74,16 @@ public class AutomobileServiceImpl implements AutomobileService {
     public AutomobileEntity findById(Long id) {
         return automobileRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public void updateAutomobile(Long id, AutomobileServiceModel automobileServiceModel) {
+        if (automobileRepository.findById(id).orElse(null) != null) {
+            AutomobileEntity e = modelMapper.map(automobileServiceModel, AutomobileEntity.class);
+            e.setOwner(userService.findByEmail(e.getOwner().getEmail()));
+            e.setModel(modelService.findByModelName(e.getModel().getName()));
+            e.setMaker(makerService.findByMakerName(e.getMaker().getName()));
+            e.setId(id);
+            automobileRepository.saveAndFlush(e);
+        }
+    }
 }

@@ -32,4 +32,9 @@ public class MakerServiceImpl implements MakerService {
     public MakerEntity findByMakerName(String name) {
         return makerRepository.findByName(name);
     }
+
+    @Override
+    public List<String> findAllMakerNames() {
+        return makerRepository.findAllNames();
+    }
 }
