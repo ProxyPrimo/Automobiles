@@ -39,3 +39,16 @@ The **Delete** button deletes the specified automobile.
 There is a search button and a field.
 If there are any automobiles that are made by the specified maker,
 they will be visualised in the same table.
+
+## Running the Project
+
+To successfully run the project on a local machine, \
+the machine needs to have MySQL installed. \
+The credentials should be changed depending on the credentials on the local machine.
+
+When running the API, open the index.html file in the templates folder in the browser.
+
+## TODO
+- Refactor the app.js file
+- Refactor the index.html file
+- Add functionalities for adding new users, new makers and new models 
