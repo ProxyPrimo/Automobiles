@@ -6,7 +6,7 @@ import automobiles.model.entities.AutomobileEntity;
 import automobiles.model.service.AutomobileServiceModel;
 import automobiles.model.view.AutomobileViewModel;
 import automobiles.service.AutomobileService;
-import automobiles.service.MakerService;
+import automobiles.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +25,12 @@ public class AutomobileController {
 
     private final AutomobileService automobileService;
     private final ModelMapper modelMapper;
+    private final UserService userService;
 
-    public AutomobileController(AutomobileService automobileService, ModelMapper modelMapper) {
+    public AutomobileController(AutomobileService automobileService, ModelMapper modelMapper, UserService userService) {
         this.automobileService = automobileService;
         this.modelMapper = modelMapper;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -52,7 +54,10 @@ public class AutomobileController {
 
             return new ResponseEntity<>(collect, HttpStatus.NOT_ACCEPTABLE);
         }
-
+        else if (userService.findByEmail(automobileAddBindingModel.getOwnerEmail()) == null) {
+            List<ErrorInfo> collect = List.of(new ErrorInfo[]{new ErrorInfo("is not in the database", "ownerEmail")});
+            return new ResponseEntity<>(collect, HttpStatus.NOT_ACCEPTABLE);
+        }
         automobileService
                 .addAutomobile(modelMapper.map(automobileAddBindingModel, AutomobileServiceModel.class));
         return ResponseEntity.ok().build();
@@ -78,6 +83,7 @@ public class AutomobileController {
     public ResponseEntity<List<ErrorInfo>> updateAutomobile(@PathVariable Long id
             , @Valid @RequestBody AutomobileAddBindingModel automobileAddBindingModel
             , BindingResult bindingResult) {
+
         if (bindingResult.hasErrors()) {
             List<ErrorInfo> collect = bindingResult.getAllErrors()
                     .stream()
