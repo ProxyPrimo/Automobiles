@@ -91,4 +91,10 @@ public class AutomobileController {
 
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/find/{maker}")
+    public ResponseEntity<List<AutomobileViewModel>> findAllByMakerName(@PathVariable String maker) {
+        List<AutomobileViewModel> allByMakerName = automobileService.findAllByMakerName(maker);
+        return new ResponseEntity<>(allByMakerName, HttpStatus.OK);
+    }
 }

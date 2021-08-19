@@ -7,7 +7,8 @@ import java.util.List;
 public interface MakerService {
     void initMakers();
 
-    MakerEntity findByMakerName(String model);
+    MakerEntity findByMakerName(String maker);
 
     List<String> findAllMakerNames();
+
 }

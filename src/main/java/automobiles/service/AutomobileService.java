@@ -16,4 +16,6 @@ public interface AutomobileService {
     AutomobileEntity findById(Long id);
 
     void updateAutomobile(Long id, AutomobileServiceModel map);
+
+    List<AutomobileViewModel> findAllByMakerName(String makerName);
 }

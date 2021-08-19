@@ -149,6 +149,70 @@ document.querySelector('#edit-btn').onclick = e => {
     });
 }
 
+
+document.querySelector('#auto-finder').onclick = e => {
+    document.querySelector('.automobile-table-container').innerHTML = '';
+    e.preventDefault();
+    const inputMaker = document.querySelector('#inputMaker').value;
+    console.log(inputMaker)
+    fetch(`http://localhost:8080/automobiles/find/${inputMaker}`)
+        .then(res => res.json())
+        .then(json => {
+            if (json.length >= 0) {
+            json.forEach(auto => {
+                const tableRow = `<tr>
+                <td>${auto.makerName}</td>
+                <td>${auto.modelName}</td>
+                <td>${auto.engineCapacity}</td>
+                <td>${auto.registrationNumber}</td>
+                <td>${auto.colour}</td>
+                <td>${auto.horsePower}</td>
+                <td>${auto.ownerFullName}</td>
+                <td><button class="edit-btn btn btn-secondary" data-id="${auto.id}">Edit</button></td>
+                <td><button class="delete-btn btn btn-danger" data-id="${auto.id}">Delete</button></td>
+                </tr>`
+                automobileTableBody.innerHTML += tableRow;
+            });
+
+            [...document.querySelectorAll(".delete-btn")].forEach(btn => {
+                btn.onclick = e => {
+                    e.preventDefault();
+
+                    const id = e.target.getAttribute("data-id");
+                    fetch(`http://localhost:8080/automobiles/${id}`, {
+                        method: "DELETE"
+                    }).then(x => {
+                        document.querySelector("#loadAllAutomobiles").onclick();
+                    })
+                }
+            });
+
+            [...document.querySelectorAll(".edit-btn")].forEach(btn => {
+                btn.onclick = e => {
+                    e.preventDefault();
+                    const id = e.target.getAttribute("data-id");
+
+                    fetch(`http://localhost:8080/automobiles/${id}`)
+                        .then(res => res.json())
+                        .then(auto => {
+                            document.querySelector('#autoId').value = id;
+                            document.querySelector('#maker-names-select').value = auto.makerName;
+                            document.querySelector('#model-names-select').value = auto.modelName;
+                            document.querySelector('#ownerEmail').value = auto.ownerEmail;
+                            document.querySelector('#horsePower').value = auto.horsePower;
+                            document.querySelector('#colour').value = auto.colour;
+                            document.querySelector('#registrationNumber').value = auto.registrationNumber;
+                            document.querySelector('#engineCapacity').value = auto.engineCapacity;
+
+                            document.querySelector("#edit-btn").style = "display: block";
+                            document.querySelector("#create-btn").style = "display: none";
+                        })
+                }
+            });
+            }
+        });
+}
+
 fetch('http://localhost:8080/makers/names')
     .then(res => res.json())
     .then(json => {

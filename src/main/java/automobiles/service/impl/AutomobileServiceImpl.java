@@ -1,6 +1,7 @@
 package automobiles.service.impl;
 
 import automobiles.model.entities.AutomobileEntity;
+import automobiles.model.entities.MakerEntity;
 import automobiles.model.service.AutomobileServiceModel;
 import automobiles.model.service.ModelServiceModel;
 import automobiles.model.service.UserServiceModel;
@@ -85,5 +86,24 @@ public class AutomobileServiceImpl implements AutomobileService {
             e.setId(id);
             automobileRepository.saveAndFlush(e);
         }
+    }
+
+    @Override
+    public List<AutomobileViewModel> findAllByMakerName(String makerName) {
+        MakerEntity maker = makerService.findByMakerName(makerName);
+        return automobileRepository
+                .findAllByMaker(maker)
+                .stream()
+                .map(a -> {
+                    AutomobileViewModel viewModel = modelMapper.map(a, AutomobileViewModel.class);
+                    viewModel.setOwnerFullName(
+                            a.getOwner().getFirstName()
+                                    + " "
+                                    + a.getOwner().getMiddleName()
+                                    + " "
+                                    + a.getOwner().getLastName());
+                    return viewModel;
+                })
+                .collect(Collectors.toList());
     }
 }
