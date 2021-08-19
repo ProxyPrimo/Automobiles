@@ -1,7 +1,6 @@
 const automobileTableBody = document.querySelector('.automobile-table-container');
 const makerSelect = document.querySelector('#maker-names-select');
 const modelSelect = document.querySelector('#model-names-select');
-const errorList = document.querySelector(`#error-msgs`);
 
 document.querySelector('#loadAllAutomobiles').onclick = () => {
     document.querySelector('.automobile-table-container').innerHTML = '';
@@ -18,8 +17,8 @@ document.querySelector('#loadAllAutomobiles').onclick = () => {
                 <td>${auto.colour}</td>
                 <td>${auto.horsePower}</td>
                 <td>${auto.ownerFullName}</td>
-                <td><button class="edit-btn" data-id="${auto.id}">Edit</button></td>
-                <td><button class="delete-btn" data-id="${auto.id}">Delete</button></td>
+                <td><button class="edit-btn btn btn-secondary" data-id="${auto.id}">Edit</button></td>
+                <td><button class="delete-btn btn btn-danger" data-id="${auto.id}">Delete</button></td>
                 </tr>`
                 automobileTableBody.innerHTML += tableRow;
             });
@@ -95,15 +94,15 @@ document.querySelector('#create-btn').onclick = e => {
         })
         .catch(err => {
             err.then(e => {
-                errorList.innerHTML = '';
                 if (e.length > 0) {
                     e.forEach(ex => {
-                        const messageNewField = document.createElement('li');
+                        const errorSpan = document.querySelector(`#${ex.to}Errors`)
+                        const messageNewField = document.createElement('p');
 
                         messageNewField.innerText = ex.to + " " + ex.ex;
                         messageNewField.value = ex.to + " " + ex.ex;
 
-                        errorList.appendChild(messageNewField);
+                        errorSpan.appendChild(messageNewField);
                     });
                 }
             })
@@ -134,17 +133,16 @@ document.querySelector('#edit-btn').onclick = e => {
         }
         document.querySelector("#loadAllAutomobiles").onclick();
     }).catch(err => {
-        console.log(err);
         err.then(e => {
-            errorList.innerHTML = '';
             if (e.length > 0) {
                 e.forEach(ex => {
-                    const messageNewField = document.createElement('li');
+                    const errorSpan = document.querySelector(`#${ex.to}Errors`)
+                    const messageNewField = document.createElement('p');
 
                     messageNewField.innerText = ex.to + " " + ex.ex;
                     messageNewField.value = ex.to + " " + ex.ex;
 
-                    errorList.appendChild(messageNewField);
+                    errorSpan.appendChild(messageNewField);
                 });
             }
         })
